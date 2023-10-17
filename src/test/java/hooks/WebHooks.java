@@ -4,7 +4,7 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 
 public class WebHooks {
-    public static void allureSubThreadParallel(){
+    public static void allureSubThreadParallel() {
         String listenerName = "AllureSelenide";
         if (!(SelenideLogger.hasListener(listenerName)))
             SelenideLogger.addListener(listenerName,

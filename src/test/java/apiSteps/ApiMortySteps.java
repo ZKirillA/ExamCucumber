@@ -3,10 +3,11 @@ package apiSteps;
 import io.cucumber.java.ru.Дано;
 import io.cucumber.java.ru.Затем;
 import io.cucumber.java.ru.И;
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
-import io.qameta.allure.Step;
+
 import static apiSteps.ApiBaseSteps.*;
 
 public class ApiMortySteps {
@@ -21,8 +22,8 @@ public class ApiMortySteps {
     public static String lastCharacterNum;
     public static String lastCharacterLocation;
 
-    @Step ("Находим информацию по персонажу Морти Смит")
-    @Дано("^Получаем информацию о Морти$")
+    @Step("Находим информацию по персонажу Морти Смит")
+    @Дано("^Получаем информацию о Морти с id (.*)$")
     public static void mortyInformation(String id) {
         Response response1 = getResponseCharacter(id);
         mortyname = parseResponse(response1, "name");
@@ -31,7 +32,7 @@ public class ApiMortySteps {
         charId = id;
     }
 
-    @Step ("Выбираем последний эпизод, где появился Морти")
+    @Step("Выбираем последний эпизод, где появился Морти")
     @Затем("Получаем информацию о последнем эпизоде с Морти")
     public static void lastEpisode() {
         Response response2 = getResponseCharacter(charId);
@@ -40,7 +41,7 @@ public class ApiMortySteps {
                 .get(jsonSize1 - 1).toString().replaceAll("[^0-9]", "");
     }
 
-    @Step ("Получаем из списка последнего эпизода последнего персонажа")
+    @Step("Получаем из списка последнего эпизода последнего персонажа")
     @Затем("Получаем индекс последнего персонажа")
     public static void getLastCharacterNum() {
         Response response3 = getResponseEpisode(lastEpisode);
@@ -50,7 +51,7 @@ public class ApiMortySteps {
     }
 
 
-    @Step ("Получаем информацию по локации и расе последнего персонажа")
+    @Step("Получаем информацию по локации и расе последнего персонажа")
     @Затем("Получаем информацию о последнем персонаже")
     public static void getLastCharacterInfo() {
         Response response4 = getResponseCharacter(lastCharacterNum);
@@ -60,13 +61,13 @@ public class ApiMortySteps {
 
     }
 
-    @Step ("Сравниваем расу последнего персонажа с расой Морти")
+    @Step("Сравниваем расу последнего персонажа с расой Морти")
     @И("Сравниваем расу персонажей")
     public static void checkRace() {
         Assertions.assertEquals(mortyrace, lastCharacterrace, "Расы персонажей не совпадают");
     }
 
-    @Step ("Сравниваем локацию последнего персонажа с локацией Морти")
+    @Step("Сравниваем локацию последнего персонажа с локацией Морти")
     @И("Сравниваем местоположение персонажей")
     public static void checkLocation() {
         Assertions.assertNotEquals(mortylocation, lastCharacterLocation, "Локации персонажей не совпадают");
